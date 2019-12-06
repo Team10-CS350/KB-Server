@@ -26,7 +26,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.10'
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
 	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile("org.modelmapper.extensions:modelmapper-spring")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	implementation('org.postgresql:postgresql')
 }
