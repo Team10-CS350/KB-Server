@@ -50,13 +50,14 @@ public class UserController {
 
 
 
-    //    @PostMapping
+//    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
 //    public User saveUser(@RequestBody User user) {
 //        return userService.saveUser(user);
 //    }
+
     @PostMapping
-    ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) @Validated User user) {
+    ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);
     }
 }

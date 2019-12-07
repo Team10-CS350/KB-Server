@@ -38,3 +38,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	implementation('org.postgresql:postgresql')
 }
+
+test {
+	useJUnitPlatform()
+}
