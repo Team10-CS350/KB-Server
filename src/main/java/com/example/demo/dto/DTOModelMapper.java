@@ -1,28 +1,29 @@
 package com.example.demo.dto;
 
-import org.apache.catalina.mapper.Mapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
 
-public class DTOMethodProcessor extends RequestResponseBodyMethodProcessor {
+public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
+    private static final ModelMapper modelMapper = new ModelMapper();
 
-    private static final ModelMap modelMapper = new ModelMap();
-
-    public DTOMethodProcessor() {
+    public DTOModelMapper() {
         super(Collections.singletonList(new MappingJackson2HttpMessageConverter()));
     }
 
