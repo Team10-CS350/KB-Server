@@ -55,6 +55,14 @@ public class UserController {
 //    public User saveUser(@RequestBody User user) {
 //        return userService.saveUser(user);
 //    }
+
+    // TODO: Should make a UserAcceptDTO class
+//    @PostMapping
+//    ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) @Validated User user) {
+//        User newUser = userService.saveUser(user);
+//        return ResponseDTO.accepted().convertTo(newUser, UserDTO.class);
+//    }
+
     @PostMapping
     ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) @Validated User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);
