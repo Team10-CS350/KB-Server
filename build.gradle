@@ -32,7 +32,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.10'
 	compile("org.springframework.boot:spring-boot-starter-web")
 	compile("org.springframework.boot:spring-boot-starter-actuator")
-	compile("org.modelmapper.extensions:modelmapper-spring")
+	compile("org.modelmapper:modelmapper")
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
+//	compile("org.modelmapper.extensions:modelmapper-spring")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	implementation('org.postgresql:postgresql')
 }
