@@ -18,8 +18,8 @@ public class User {
     @NotNull
     private String name;
 
-    @NotEmpty
-    @Email()
+//    @NotEmpty
+//    @Email
     private String email;
 
 //    @Size(min = 8, max = 200)
