@@ -4,6 +4,7 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.ResponseDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.services.UserService;
+import com.example.demo.exceptions.types.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,8 +39,13 @@ public class UserController {
     ResponseDTO<UserDTO> getUserById(@PathVariable Long id) {
         return ResponseDTO.accepted().convertTo(userService.findUserById(id), UserDTO.class);
     }
+    ResponseDTO<UserDTO> getUserById(@PathVariable Long id) throws UserNotFoundException {
+        Optional found = userService.findUserById(id);
 
+        if (!found.isPresent()) {
+            throw new UserNotFoundException();
 
+        }
 
     //    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
