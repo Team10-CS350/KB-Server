@@ -37,6 +37,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleGenericException(ex);
     }
 
+    @ExceptionHandler(UserAlreadyRegisteredException.class)
+    protected ResponseEntity<Object> handleUserAlreadyRegisteredException(UserAlreadyRegisteredException ex) {
+        return handleGenericException(ex);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         BindingResult bindingResult = ex.getBindingResult();
