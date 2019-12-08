@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 
+import com.example.demo.exceptions.ApiError;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -29,11 +30,18 @@ public class ResponseDTO<T> extends HttpEntity<T> {
         return status(HttpStatus.BAD_REQUEST);
     }
 
+    public static Builder conflict() { return status(HttpStatus.CONFLICT); }
+
     public static Builder status(HttpStatus status) {
         return new BodyBuilder(status);
     }
 
     public interface Builder {
+
+        <T> ResponseDTO<T> empty();
+
+        <T> ResponseDTO<T> error(ApiError error);
+
         <T> ResponseDTO<T> convertTo(Object entity, Class<T> aClass);
 
         <T> ResponseDTO<List<T>> convertToList(List<?> entityList, Class<T> aClass);
@@ -47,6 +55,7 @@ public class ResponseDTO<T> extends HttpEntity<T> {
             this.status = status;
         }
 
+        @Override
         public <T> ResponseDTO<T> convertTo(Object entity, Class<T> aClass) {
             Assert.notNull(AnnotationUtils.getAnnotation(aClass, DTO.class),
                     "Type should contain DTO annotation");
@@ -54,15 +63,24 @@ public class ResponseDTO<T> extends HttpEntity<T> {
             return new ResponseDTO<T>(modelMapper.map(entity, aClass), this.status);
         }
 
+        @Override
         public <T> ResponseDTO<List<T>> convertToList(List<?> entityList, Class<T> aClass) {
             Assert.notNull(AnnotationUtils.getAnnotation(aClass, DTO.class),
                     "Type should contain DTO annotation");
 
-            Type type = new TypeToken<List<T>>(){}.getClass();
-
             return new ResponseDTO<>(entityList.stream()
                     .map(entity -> modelMapper.map(entity, aClass))
                     .collect(Collectors.toList()), this.status);
+        }
+
+        @Override
+        public <T> ResponseDTO<T> empty() {
+            return new ResponseDTO<T>((T) "Hi", this.status);
+        }
+
+        @Override
+        public <T> ResponseDTO<T> error(ApiError error) {
+            return new ResponseDTO<T>((T) error, this.status);
         }
     }
 }

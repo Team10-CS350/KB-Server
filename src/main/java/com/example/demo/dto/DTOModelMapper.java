@@ -29,12 +29,6 @@ public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
         return parameter.hasParameterAnnotation(RequestDTO.class);
     }
 
-//     uncomment to force validate
-//    @Override
-//    protected void validateIfApplicable(WebDataBinder binder, MethodParameter parameter) {
-//        binder.validate();
-//    }
-
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Object dto = super.resolveArgument(parameter, mavContainer, webRequest, binderFactory);

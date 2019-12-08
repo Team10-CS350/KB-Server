@@ -22,24 +22,12 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping
-//    public List<User> getAllUsers() {
-//        return userService.findAllUsers();
-//    }
-
     @GetMapping
     ResponseDTO<List<UserDTO>> getAllUsers() {
         return ResponseDTO.accepted().convertToList(userService.findAllUsers(), UserDTO.class);
     }
 
-//    @GetMapping("/{id}")
-//    public User getUser(@PathVariable Long id) {
-
-//    }
     @GetMapping("/{id}")
-    ResponseDTO<UserDTO> getUserById(@PathVariable Long id) {
-        return ResponseDTO.accepted().convertTo(userService.findUserById(id), UserDTO.class);
-    }
     ResponseDTO<UserDTO> getUserById(@PathVariable Long id) throws UserNotFoundException {
         Optional found = userService.findUserById(id);
 
@@ -48,18 +36,11 @@ public class UserController {
 
         }
 
-    //    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public User saveUser(@RequestBody User user) {
-//        return userService.saveUser(user);
-//    }
+        return ResponseDTO.accepted().convertTo(found.get(), UserDTO.class);
+    }
 
     // TODO: Should make a UserAcceptDTO class
-//    @PostMapping
-//    ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) @Validated User user) {
-//        User newUser = userService.saveUser(user);
-//        return ResponseDTO.accepted().convertTo(newUser, UserDTO.class);
-//    }
+    // TODO: or not
 
     @PostMapping
     ResponseDTO<UserDTO> saveUser(@RequestBody User user) {
