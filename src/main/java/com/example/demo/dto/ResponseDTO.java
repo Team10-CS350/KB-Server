@@ -2,13 +2,11 @@ package com.example.demo.dto;
 
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +20,6 @@ public class ResponseDTO<T> extends HttpEntity<T> {
         super(body);
         this.status = status;
     }
-
 
     public static ResponseDTO.Builder accepted() {
         return status(HttpStatus.ACCEPTED);

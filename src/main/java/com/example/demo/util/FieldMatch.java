@@ -1,6 +1,5 @@
 package com.example.demo.util;
 
-
 import javax.validation.Payload;
 import javax.validation.Constraint;
 import java.lang.annotation.Documented;

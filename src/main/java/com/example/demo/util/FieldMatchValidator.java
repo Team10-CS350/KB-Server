@@ -5,7 +5,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-
 public class FieldMatchValidator implements ConstraintValidator <FieldMatch, Object> {
 
     private String firstFieldName;
