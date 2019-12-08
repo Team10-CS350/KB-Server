@@ -7,6 +7,7 @@ import com.example.demo.services.UserService;
 import com.example.demo.exceptions.types.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class UserController {
     // TODO: or not
 
     @PostMapping
-    ResponseDTO<UserDTO> saveUser(@RequestBody User user) {
+    ResponseDTO<UserDTO> saveUser(@Valid @RequestBody User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);
     }
 }
