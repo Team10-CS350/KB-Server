@@ -58,3 +58,7 @@ dependencies {
 
 	implementation('org.postgresql:postgresql')
 }
+
+test {
+	useJUnitPlatform()
+}
