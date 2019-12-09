@@ -36,6 +36,26 @@ dependencies {
 	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
 //	compile("org.modelmapper.extensions:modelmapper-spring")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+//	compile("org.springframework.boot:spring-boot-starter-security")
+
+	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+//	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
+//	compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version: '6.1.0.Final'
+
+	compile("org.hibernate.validator:hibernate-validator")
+	compile("org.apache.tomcat.embed:tomcat-embed-el")
+
+
+
+
+
 	implementation('org.postgresql:postgresql')
 }
 

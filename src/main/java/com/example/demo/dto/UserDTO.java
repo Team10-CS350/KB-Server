@@ -1,8 +1,6 @@
 package com.example.demo.dto;
 
 import lombok.Data;
-import org.modelmapper.ModelMapper;
-import org.springframework.ui.ModelMap;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,4 +11,6 @@ public class UserDTO {
     private Long id;
 
     private String name;
+
+    private String email;
 }

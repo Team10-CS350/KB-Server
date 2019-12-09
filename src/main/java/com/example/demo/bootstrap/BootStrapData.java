@@ -2,7 +2,6 @@ package com.example.demo.bootstrap;
 
 import com.example.demo.domain.User;
 import com.example.demo.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

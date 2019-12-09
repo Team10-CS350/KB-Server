@@ -1,21 +1,15 @@
 package com.example.demo.controllers;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.DTO;
-import com.example.demo.dto.RequestDTO;
 import com.example.demo.dto.ResponseDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.services.UserService;
-import lombok.Getter;
-import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import com.example.demo.exceptions.types.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(UserController.BASE_URL)
@@ -29,35 +23,28 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping
-//    public List<User> getAllUsers() {
-//        return userService.findAllUsers();
-//    }
-
     @GetMapping
     ResponseDTO<List<UserDTO>> getAllUsers() {
         return ResponseDTO.accepted().convertToList(userService.findAllUsers(), UserDTO.class);
     }
 
-//    @GetMapping("/{id}")
-//    public User getUser(@PathVariable Long id) {
-
-//    }
     @GetMapping("/{id}")
-    ResponseDTO<UserDTO> getUserById(@PathVariable Long id) {
-        return ResponseDTO.accepted().convertTo(userService.findUserById(id), UserDTO.class);
+    ResponseDTO<UserDTO> getUserById(@PathVariable Long id) throws UserNotFoundException {
+        Optional found = userService.findUserById(id);
+
+        if (!found.isPresent()) {
+            throw new UserNotFoundException();
+
+        }
+
+        return ResponseDTO.accepted().convertTo(found.get(), UserDTO.class);
     }
 
-
-
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public User saveUser(@RequestBody User user) {
-//        return userService.saveUser(user);
-//    }
+    // TODO: Should make a UserAcceptDTO class
+    // TODO: or not
 
     @PostMapping
-    ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) User user) {
+    ResponseDTO<UserDTO> saveUser(@Valid @RequestBody User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);
     }
 

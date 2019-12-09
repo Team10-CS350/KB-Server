@@ -1,14 +1,16 @@
 package com.example.demo.services;
 
 import com.example.demo.domain.User;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import com.example.demo.dto.UserRegistrationDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-    User findUserById(Long id);
+    Optional<User> findUserById(Long id);
     List<User> findAllUsers();
     User saveUser(User user);
+    Optional<User> findByEmail(String email);
+    User registerUser(UserRegistrationDTO userRegistrationDTO);
 }
 
