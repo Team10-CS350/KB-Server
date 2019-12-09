@@ -60,4 +60,5 @@ public class UserController {
     ResponseDTO<UserDTO> saveUser(@RequestDTO(UserDTO.class) User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);
     }
+
 }
