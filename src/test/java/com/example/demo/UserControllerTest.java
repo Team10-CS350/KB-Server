@@ -51,14 +51,13 @@ public class UserControllerTest {
         ).andExpect(status().isUnsupportedMediaType());
     }
 
-//    @Test
-//    public void whenContentIsNull_thenReturns500() throws Exception {
-//        mockMvc.perform(post("/users/")
-//                .contentType("application/json")
-//                .characterEncoding("utf8")
-////                .content("{\"name\": \"Hello There\"}")
-//        ).andExpect(status().isInternalServerError());
-//    }
+    @Test
+    public void whenContentIsNull_thenReturns400() throws Exception {
+        mockMvc.perform(post("/users/")
+                .contentType("application/json")
+                .characterEncoding("utf8")
+        ).andExpect(status().isBadRequest());
+    }
 
     @Test
     public void whenInvalidURL_thenReturns404() throws Exception {
@@ -70,8 +69,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void Post_InvalidURL_thenReturns400() throws Exception {
-        mockMvc.perform(get("/users/1998")
+    public void Post_InvalidURL_thenReturns405() throws Exception {
+        mockMvc.perform(post("/users/1998")
                 .contentType("application/json")
                 .characterEncoding("utf8")
                 .content("{\"name\": \"Hello There\"}")
@@ -92,24 +91,44 @@ public class UserControllerTest {
         assertThat(actualResponseBody.contains("{\"name\": \"Ben\"}"));
     }
 
+
+    @Test
+    public void GetAllUsersList_ValidInput_thenReturns200() throws Exception {
+        mockMvc.perform(get("/users/")
+                .contentType("application/json")
+                .characterEncoding("utf8")
+        ).andExpect(status().isOk());
+    }
+
     @Test
     public void GetUserByID_ValidInput_thenReturns200() throws Exception {
         mockMvc.perform(get("/users/1")
                         .contentType("application/json")
                         .characterEncoding("utf8")
-//                .content("{\"name\": \"Hello There\"}")
         ).andExpect(status().isOk());
     }
 
+    @Test
+    public void GetUserByID_CheckingRightOutput() throws Exception {
+        MvcResult mvcResult=mockMvc.perform(get("/users/1")
+                .contentType("application/json")
+                .characterEncoding("utf8")
+        ).andReturn();
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertThat(actualResponseBody.contains("{\"name\": \"aaa\"}"));
+    }
+
+    // Through this test, we found out that we need to throw a notFoundError when the ID does not exist in the database
     @Test
     public void GetUserByID_InvalidInput_thenReturns400() throws Exception {
 
         mockMvc.perform(get("/users/1998")
                         .contentType("application/json")
                         .characterEncoding("utf8")
-    //                .content("{\"name\": \"Hello There\"}")
-        ).andExpect(status().isInternalServerError());
+        ).andExpect(status().isNotFound());
     }
+
+
 
 
 }
