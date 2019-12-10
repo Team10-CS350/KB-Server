@@ -68,4 +68,17 @@ public class UserServiceImpl implements UserService {
 //        customerRepository.save(custom);
         return token;
     }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+//        User loggedInUser = findByEmail(login)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + login));
+//
+//        List<String> roleArray = new ArrayList<String>();
+//        roleArray.add("ADMIN");
+//
+//        GrantedAuthority authority = new SimpleGrantedAuthority("ADMIN");
+//
+//        return new org.springframework.security.core.userdetails.User(loggedInUser.getEmail(), loggedInUser.getPassword(), Arrays.asList(authority));
+//    }
 }
