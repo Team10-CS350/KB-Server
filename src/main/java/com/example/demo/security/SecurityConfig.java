@@ -50,13 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/token").permitAll()
-                .antMatchers(HttpMethod.POST, "/registration/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                .anyRequest().authenticated();
-
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/oauth/token").permitAll()
+//                .antMatchers(HttpMethod.POST, "/registration/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN");
+//                .anyRequest().authenticated();
+;
 //        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().anyRequest().permitAll();
     }
 
@@ -65,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(bCryptPasswordEncoder());
         provider.setUserDetailsService(userDetailsService);
         return provider;
-
     }
 
     @Bean
