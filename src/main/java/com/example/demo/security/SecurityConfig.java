@@ -50,10 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/oauth/token")
-                .permitAll()
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN");
+                .authorizeRequests()
+                .antMatchers("/oauth/token").permitAll()
+                .antMatchers(HttpMethod.POST, "/registration/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+                .anyRequest().authenticated();
+
 //        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().anyRequest().permitAll();
     }
 
