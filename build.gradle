@@ -20,6 +20,7 @@ bootJar {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 sourceCompatibility = 1.8
@@ -52,6 +53,12 @@ dependencies {
 	compile("org.hibernate.validator:hibernate-validator")
 	compile("org.apache.tomcat.embed:tomcat-embed-el")
 
+//	compile("org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.
+
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.10.BUILD-SNAPSHOT'
+
+	compile("org.springframework.boot:spring-boot-autoconfigure")
 
 
 
