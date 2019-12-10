@@ -2,7 +2,10 @@ package com.example.demo.bootstrap;
 
 import com.example.demo.domain.User;
 import com.example.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,8 +13,12 @@ public class BootStrapData implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
-    public BootStrapData(UserRepository userRepository) {
+    @Autowired
+    private final PasswordEncoder encoder;
+
+    public BootStrapData(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -19,7 +26,9 @@ public class BootStrapData implements CommandLineRunner {
         System.out.println("Setting up dummy users...");
 
         User u1 = new User();
-        u1.setName("aaa");
+        u1.setName("a");
+        u1.setEmail("a@a.a");
+        u1.setPassword(encoder.encode("aaa"));
         userRepository.save(u1);
 
         User u2 = new User();
