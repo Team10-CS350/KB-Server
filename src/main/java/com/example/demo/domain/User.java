@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,8 +24,9 @@ public class User {
 //    @Email
     private String email;
 
-//    @Size(min = 8, max = 200)
+    @Size(min = 1, max = 200)
     private String password;
+
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(

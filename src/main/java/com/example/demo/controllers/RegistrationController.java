@@ -26,7 +26,8 @@ public class RegistrationController {
             throw new UserAlreadyRegisteredException();
         }
 
-        User newUser = userService.registerUser(userRegistrationDTO);
+//        User newUser = userService.registerUser(userRegistrationDTO);
+        User newUser = new User();
         return ResponseDTO.accepted().convertTo(newUser, UserDTO.class);
     }
 }
