@@ -40,6 +40,13 @@ public class User {
     private Date createdAt;
 
     private boolean isBuddy = false;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
+
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name = "users_roles",
@@ -48,5 +55,4 @@ public class User {
 //            inverseJoinColumns = @JoinColumn(
 //                    name = "role_id", referencedColumnName = "id"))
 //    private Collection< Role > roles;
-
 }
