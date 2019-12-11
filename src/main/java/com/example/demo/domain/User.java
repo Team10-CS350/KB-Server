@@ -20,8 +20,9 @@ public class User {
     @NotNull
     private String name;
 
-//    @NotEmpty
-//    @Email
+    @NotEmpty
+    @Email
+    @Pattern(regexp=".*@kaist\\.ac\\.kr$", message="Not a valid KAIST email address")
     private String email;
 
     @Size(min = 1, max = 200)
