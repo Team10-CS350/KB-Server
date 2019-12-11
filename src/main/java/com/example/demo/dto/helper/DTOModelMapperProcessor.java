@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.helper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.core.MethodParameter;
@@ -17,10 +17,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
 
-public class DTOModelMapper extends RequestResponseBodyMethodProcessor {
+public class DTOModelMapperProcessor extends RequestResponseBodyMethodProcessor {
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public DTOModelMapper() {
+    public DTOModelMapperProcessor() {
         super(Collections.singletonList(new MappingJackson2HttpMessageConverter()));
     }
 

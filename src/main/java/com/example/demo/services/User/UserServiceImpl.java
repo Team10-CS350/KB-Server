@@ -1,15 +1,11 @@
-package com.example.demo.services;
+package com.example.demo.services.User;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.UserRegistrationDTO;
+import com.example.demo.dto.User.UserRegistrationDTO;
 import com.example.demo.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +15,7 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final ModelMapper modelMapper = new ModelMapper();
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -46,28 +42,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-//    @Override
-//    public User registerUser(UserRegistrationDTO userRegistrationDTO) {
-//        User newUser = new User();
-//        modelMapper.map(userRegistrationDTO, newUser);
-//        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-//        return saveUser(newUser);
-//    }
-
     @Override
-    public String login(String email, String password) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-
-        if (!userOpt.isPresent()) {
-            return "";
-        }
-
-        String token = UUID.randomUUID().toString();
-        User user = userOpt.get();
-//        user.setToken(token);
-//        customerRepository.save(custom);
-        return token;
+    public User registerUser(UserRegistrationDTO userRegistrationDTO) {
+        User newUser = new User();
+        modelMapper.map(userRegistrationDTO, newUser);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        return saveUser(newUser);
     }
+
 
 //    @Override
 //    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

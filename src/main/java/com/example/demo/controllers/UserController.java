@@ -1,9 +1,9 @@
 package com.example.demo.controllers;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.ResponseDTO;
-import com.example.demo.dto.UserDTO;
-import com.example.demo.services.UserService;
+import com.example.demo.dto.helper.ResponseDTO;
+import com.example.demo.dto.User.UserDTO;
+import com.example.demo.services.User.UserService;
 import com.example.demo.exceptions.types.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +43,7 @@ public class UserController {
     // TODO: Should make a UserAcceptDTO class
     // TODO: or not
 
+    @Deprecated
     @PostMapping
     ResponseDTO<UserDTO> saveUser(@Valid @RequestBody User user) {
         return ResponseDTO.accepted().convertTo(userService.saveUser(user), UserDTO.class);

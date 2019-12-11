@@ -1,5 +1,6 @@
-package com.example.demo.dto;
+package com.example.demo.dto.User;
 
+import com.example.demo.dto.helper.DTO;
 import com.example.demo.util.FieldMatch;
 import lombok.Data;
 
@@ -24,7 +25,9 @@ public class UserRegistrationDTO {
     @NotEmpty
     private String confirmPassword;
 
-    @Email
     @NotEmpty
+    @NotEmpty
+    @Email
+    @Pattern(regexp=".*@kaist\\.ac\\.kr$", message="Not a valid KAIST email address")
     private String email;
 }

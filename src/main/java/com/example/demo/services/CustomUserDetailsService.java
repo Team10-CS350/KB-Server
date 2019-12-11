@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 
 import com.example.demo.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.services.User.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
         GrantedAuthority authority = new SimpleGrantedAuthority("ADMIN");
 
-        return new org.springframework.security.core.userdetails.User(loggedInUser.getEmail(), loggedInUser.getPassword(), Arrays.asList(authority));
+        return new org.springframework.security.core.userdetails.User(loggedInUser.getId().toString(), loggedInUser.getPassword(), Arrays.asList(authority));
     }
 }

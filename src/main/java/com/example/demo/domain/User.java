@@ -1,13 +1,18 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,16 +22,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @NotNull
     private String name;
 
-//    @NotEmpty
-//    @Email
+    @NotEmpty
+    @Email
+    @Pattern(regexp=".*@kaist\\.ac\\.kr$", message="Not a valid KAIST email address")
     private String email;
 
-    @Size(min = 1, max = 200)
+    @NotNull
+    @NotEmpty
+    @Size(min = 8, max = 200)
     private String password;
 
+    @CreationTimestamp
+    private Date createdAt;
+
+    private boolean isBuddy = false;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
@@ -36,5 +55,4 @@ public class User {
 //            inverseJoinColumns = @JoinColumn(
 //                    name = "role_id", referencedColumnName = "id"))
 //    private Collection< Role > roles;
-
 }

@@ -1,8 +1,6 @@
 package com.example.demo.exceptions;
 
-import com.example.demo.exceptions.types.AbstractApiException;
-import com.example.demo.exceptions.types.UserAlreadyRegisteredException;
-import com.example.demo.exceptions.types.UserNotFoundException;
+import com.example.demo.exceptions.types.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +30,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
     }
 
+    // TODO: use generics/wildcards
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return handleGenericException(ex);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
         return handleGenericException(ex);
@@ -39,6 +44,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserAlreadyRegisteredException.class)
     protected ResponseEntity<Object> handleUserAlreadyRegisteredException(UserAlreadyRegisteredException ex) {
+        return handleGenericException(ex);
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(PermissionDeniedException ex) {
+        return handleGenericException(ex);
+    }
+
+    @ExceptionHandler(AlreadyInEventException.class)
+    protected ResponseEntity<Object> handleAlreadyInEventException(AlreadyInEventException ex) {
+        return handleGenericException(ex);
+    }
+
+    @ExceptionHandler(NotInEventException.class)
+    protected ResponseEntity<Object> handleNotInEventException(NotInEventException ex) {
         return handleGenericException(ex);
     }
 

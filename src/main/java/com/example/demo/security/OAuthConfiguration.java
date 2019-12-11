@@ -39,7 +39,7 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 .withClient("fooClientId").secret(new BCryptPasswordEncoder().encode("secret"))
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("read","write")
-                .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT", "USER","ADMIN")
+                .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT", "USER", "ADMIN")
                 .autoApprove(true)
                 .accessTokenValiditySeconds(180)//Access token is only valid for 3 minutes.
                 .refreshTokenValiditySeconds(600);//Refresh token is only valid for 10 minutes.;
