@@ -48,4 +48,16 @@ public class EventController {
         List<Event> list = eventService.getEvents(pageNo, pageSize, sortBy);
         return ResponseDTO.accepted().convertToList(list, EventResponseDTO.class);
     }
+
+
+    @GetMapping("/{id}")
+    public ResponseDTO<EventResponseDTO> getEventById(@PathVariable Long id) throws ResourceNotFoundException {
+        Optional found = eventService.findEventById(id);
+
+        if (!found.isPresent()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return ResponseDTO.accepted().convertTo(found.get(), EventResponseDTO.class);
+    }
 }
