@@ -60,4 +60,18 @@ public class EventController {
 
         return ResponseDTO.accepted().convertTo(found.get(), EventResponseDTO.class);
     }
+
+    @PostMapping
+    public ResponseDTO<EventResponseDTO> postEvent(@Valid @RequestBody EventPostDTO eventPostDTO) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Long userId = Long.parseLong(context.getAuthentication().getPrincipal().toString());
+
+        Event event = new Event();
+        User user = userService.findUserById(userId).get();
+        event.setUser(user);
+        event.getUsers().add(user);
+
+        modelMapper.map(eventPostDTO, event);
+        return ResponseDTO.accepted().convertTo(eventService.saveEvent(event), EventResponseDTO.class);
+    }
 }
