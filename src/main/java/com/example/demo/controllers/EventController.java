@@ -148,4 +148,8 @@ public class EventController {
         return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
     }
 
+    private static Long getCurrentUserId() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        return Long.parseLong(context.getAuthentication().getPrincipal().toString());
+    }
 }
