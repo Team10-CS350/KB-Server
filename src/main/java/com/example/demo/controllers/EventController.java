@@ -74,4 +74,24 @@ public class EventController {
         modelMapper.map(eventPostDTO, event);
         return ResponseDTO.accepted().convertTo(eventService.saveEvent(event), EventResponseDTO.class);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseDTO<EventResponseDTO> deleteEvent(@PathVariable Long id) throws PermissionDeniedException {
+        Long userId = getCurrentUserId();
+
+        Optional<Event> found = eventService.findEventById(id);
+
+        if (!found.isPresent()) {
+            throw new PermissionDeniedException();
+        }
+
+        Event event = found.get();
+
+        if (!event.getUser().getId().equals(userId)) {
+            throw new PermissionDeniedException();
+        }
+
+        eventService.deleteById(id);
+        return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
+    }
 }
