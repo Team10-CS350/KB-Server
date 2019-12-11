@@ -24,7 +24,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers(HttpMethod.POST, SECURED_PATTERN).access(SECURED_WRITE_SCOPE)
                 .anyRequest().access(SECURED_READ_SCOPE);*/
         http.antMatcher("/**")
-                .authorizeRequests().antMatchers("/registration").permitAll().anyRequest().authenticated();
+                .authorizeRequests().antMatchers("/oauth/token", "/registration").permitAll().anyRequest().authenticated();
 //        .and().antMatcher("/registration").authorizeRequests().anyRequest().permitAll();
     }
 }

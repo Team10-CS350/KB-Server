@@ -19,6 +19,7 @@ public class UserRegistrationDTO {
 
     @NotNull
     @NotEmpty
+    @Size(min = 8, max = 200)
     private String password;
 
     @NotNull
