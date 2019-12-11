@@ -1,8 +1,6 @@
 package com.example.demo.exceptions;
 
-import com.example.demo.exceptions.types.AbstractApiException;
-import com.example.demo.exceptions.types.UserAlreadyRegisteredException;
-import com.example.demo.exceptions.types.UserNotFoundException;
+import com.example.demo.exceptions.types.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +29,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String error = "Malformed JSON request";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
     }
+
+    // TODO: use generics/wildcards
 
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
