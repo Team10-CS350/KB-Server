@@ -94,4 +94,32 @@ public class EventController {
         eventService.deleteById(id);
         return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
     }
+
+    @RequestMapping("/request-join")
+    @GetMapping(params = "id")
+    ResponseDTO<EventResponseDTO> joinEvent(@RequestParam Long id) throws PermissionDeniedException, AlreadyInEventException {
+        Long userId = getCurrentUserId();
+
+        Optional<Event> found = eventService.findEventById(id);
+
+        if (!found.isPresent()) {
+            throw new PermissionDeniedException();
+        }
+
+        Event event = found.get();
+
+        List<User> eventMembership = event.getUsers().stream().filter(u -> u.getId().equals(userId)).collect(Collectors.toList());
+
+        // If in the event
+        if (eventMembership.size() > 0) {
+            throw new AlreadyInEventException();
+        }
+
+        User newUser = new User();
+        newUser.setId(userId);
+
+        eventService.addMember(id, newUser);
+
+        return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
+    }
 }
