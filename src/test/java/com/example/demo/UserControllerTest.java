@@ -258,15 +258,16 @@ public class UserControllerTest {
         assertThat(event.getTitle().equals(eventGet.getTitle())&& event.getDescription().equals(eventGet.getDescription()));
     }
 
-//    @Test
-//    public void GetListOfEvents_ValidInput_thenReturns200() throws Exception {
-//        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
-//
-//        mockMvc.perform(get("/events")
-//                .header("Authorization", "Bearer " + accessToken)
-//                .contentType("application/json;charset=UTF-8")
-//        ).andExpect(status().isOk());
-//    }
+    @Test
+    public void GetListOfEvents_ValidInput_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+
+        mockMvc.perform(get("/events?pageNo=0&pageSize=10&sortBy=id")
+                .header("Authorization", "Bearer " + accessToken)
+//                .param("{\"pageNo\": \"0\", \"pageSize\": \"10\", \"sortBy\": \"id\"}")
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isOk());
+    }
 
     @Test
     public void FindEventById_InvalidId_thenReturns404() throws Exception {
