@@ -122,4 +122,30 @@ public class EventController {
 
         return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
     }
+
+    @RequestMapping("/request-leave")
+    @GetMapping(params = "id")
+    ResponseDTO<EventResponseDTO> leaveEvent(@RequestParam Long id) throws PermissionDeniedException, NotInEventException {
+        Long userId = getCurrentUserId();
+
+        Optional<Event> found = eventService.findEventById(id);
+
+        if (!found.isPresent()) {
+            throw new PermissionDeniedException();
+        }
+
+        Event event = found.get();
+
+        List<User> eventMembership = event.getUsers().stream().filter(u -> u.getId().equals(userId)).collect(Collectors.toList());
+
+        // If not in event
+        if (eventMembership.size() == 0) {
+            throw new NotInEventException();
+        }
+
+        eventService.removeMember(id, eventMembership.get(0));
+
+        return ResponseDTO.accepted().convertTo(event, EventResponseDTO.class);
+    }
+
 }
