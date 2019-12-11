@@ -47,6 +47,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleGenericException(ex);
     }
 
+    @ExceptionHandler(PermissionDeniedException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(PermissionDeniedException ex) {
+        return handleGenericException(ex);
+    }
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         BindingResult bindingResult = ex.getBindingResult();
