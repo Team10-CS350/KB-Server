@@ -36,6 +36,8 @@ public class User {
     @Size(min = 8, max = 200)
     private String password;
 
+    @CreationTimestamp
+    private Date createdAt;
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
