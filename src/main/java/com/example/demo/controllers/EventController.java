@@ -34,4 +34,18 @@ public class EventController {
         this.userService = userService;
     }
 
+    @GetMapping(params = { "pageNo", "pageSize" })
+    public ResponseDTO<List<EventResponseDTO>> getEvents(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                         @RequestParam(defaultValue = "10") Integer pageSize) {
+        List<Event> list = eventService.getEvents(pageNo, pageSize);
+        return ResponseDTO.accepted().convertToList(list, EventResponseDTO.class);
+    }
+
+    @GetMapping(params = { "pageNo", "pageSize", "sortBy" })
+    public ResponseDTO<List<EventResponseDTO>> getEvents(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                         @RequestParam(defaultValue = "10") Integer pageSize,
+                                                         @RequestParam(defaultValue = "id") String sortBy) {
+        List<Event> list = eventService.getEvents(pageNo, pageSize, sortBy);
+        return ResponseDTO.accepted().convertToList(list, EventResponseDTO.class);
+    }
 }
