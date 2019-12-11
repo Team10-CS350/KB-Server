@@ -32,6 +32,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // TODO: use generics/wildcards
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return handleGenericException(ex);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
         return handleGenericException(ex);
