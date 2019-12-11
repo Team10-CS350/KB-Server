@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.helper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
