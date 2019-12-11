@@ -1,11 +1,11 @@
 package com.example.demo.controllers;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.ResponseDTO;
-import com.example.demo.dto.UserDTO;
-import com.example.demo.dto.UserRegistrationDTO;
+import com.example.demo.dto.helper.ResponseDTO;
+import com.example.demo.dto.User.UserDTO;
+import com.example.demo.dto.User.UserRegistrationDTO;
 import com.example.demo.exceptions.types.UserAlreadyRegisteredException;
-import com.example.demo.services.UserService;
+import com.example.demo.services.User.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,8 +26,6 @@ public class RegistrationController {
             throw new UserAlreadyRegisteredException();
         }
 
-//        User newUser = userService.registerUser(userRegistrationDTO);
-        User newUser = new User();
-        return ResponseDTO.accepted().convertTo(newUser, UserDTO.class);
+        return ResponseDTO.accepted().convertTo(userService.registerUser(userRegistrationDTO), UserDTO.class);
     }
 }
