@@ -32,6 +32,11 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+
+
+
+
+
     @Test
     public void whenValidInput_thenReturns200() throws Exception {
         mockMvc.perform(post("/users/")
@@ -70,7 +75,7 @@ public class UserControllerTest {
 
     @Test
     public void Post_InvalidURL_thenReturns405() throws Exception {
-        mockMvc.perform(post("/users/1998")
+        mockMvc.perform(post("/users/1")
                 .contentType("application/json")
                 .characterEncoding("utf8")
                 .content("{\"name\": \"Hello There\"}")
