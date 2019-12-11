@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
+import com.example.demo.domain.Event;
 import com.example.demo.domain.User;
 import com.example.demo.dto.User.UserRegistrationDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -227,7 +228,151 @@ public class UserControllerTest {
 
     }
 
+    @Test
+    public void PostEvent_ValidInput_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Kelly\", \"description\": \"Music Performance\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+        assertThat(event.getTitle().equals("Kelly")&& event.getDescription().equals("Music Performance"));
+    }
 
+    @Test
+    public void FindEventById_CheckingResponse_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Kelly\", \"description\": \"Music Performance\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+        MvcResult mvcResultGet=mockMvc.perform(get("/events/"+event.getId())
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isOk()).andReturn();
+        Event eventGet = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+        assertThat(event.getTitle().equals(eventGet.getTitle())&& event.getDescription().equals(eventGet.getDescription()));
+    }
+
+//    @Test
+//    public void GetListOfEvents_ValidInput_thenReturns200() throws Exception {
+//        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+//
+//        mockMvc.perform(get("/events")
+//                .header("Authorization", "Bearer " + accessToken)
+//                .contentType("application/json;charset=UTF-8")
+//        ).andExpect(status().isOk());
+//    }
+
+    @Test
+    public void FindEventById_InvalidId_thenReturns404() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+
+        mockMvc.perform(get("/events/1095387")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    public void DeleteEvent_ValidInput_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Kelly\", \"description\": \"Music Performance\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+        mockMvc.perform(delete("/events/"+event.getId())
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isOk());
+    }
+
+    //     When the event was not created by the user, he/she cannot delete it
+    @Test
+    public void DeleteEvent_InvalidId_thenReturns401() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+
+        mockMvc.perform(delete("/events/1")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void JoinEvent_ValidInput_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Bear Hunt\", \"description\": \"we are gonna use arrows for that\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+        String accessToken2 = obtainAccessToken("e@kaist.ac.kr", "eeeeeeeeee");
+        mockMvc.perform(patch("/events/request-join?id="+event.getId())
+                .header("Authorization", "Bearer " + accessToken2)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void JoinEvent_UserAlreadyJoined_thenReturns409() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Bear Hunt\", \"description\": \"we are gonna use arrows for that\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+//        String accessToken2 = obtainAccessToken("e@kaist.ac.kr", "eeeeeeeeee");
+        mockMvc.perform(patch("/events/request-join?id="+event.getId())
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isConflict());
+    }
+
+    @Test
+    public void LeaveEvent_ValidInput_thenReturns200() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Bear Hunt\", \"description\": \"we are gonna use arrows for that\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+//        String accessToken2 = obtainAccessToken("e@kaist.ac.kr", "eeeeeeeeee");
+        mockMvc.perform(put("/events/request-leave?id="+event.getId())
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void LeaveEvent_NotInEvent_thenReturns409() throws Exception {
+        String accessToken = obtainAccessToken("a@kaist.ac.kr", "aaaaaaaaaa");
+        MvcResult mvcResult=mockMvc.perform(post("/events/")
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("application/json;charset=UTF-8")
+                .content("{\"title\": \"Bear Hunt\", \"description\": \"we are gonna use arrows for that\"}")
+        ).andExpect(status().isOk()).andReturn();
+        Event event = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+
+        String accessToken2 = obtainAccessToken("e@kaist.ac.kr", "eeeeeeeeee");
+        mockMvc.perform(put("/events/request-leave?id="+event.getId())
+                .header("Authorization", "Bearer " + accessToken2)
+                .contentType("application/json;charset=UTF-8")
+        ).andExpect(status().isConflict());
+    }
 }
 
 
