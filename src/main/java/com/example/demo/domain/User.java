@@ -39,6 +39,7 @@ public class User {
     @CreationTimestamp
     private Date createdAt;
 
+    private boolean isBuddy = false;
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name = "users_roles",
