@@ -7,11 +7,30 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'checkstyle'
+	id 'pmd'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+task Checkstyle(type: Checkstyle) {
+	source 'src/main/java'
+	include '**/*.java'
+	exclude '**/gen/**'
+	exclude '**/R.java'
+	exclude '**/BuildConfig.java'
+
+	// empty classpath
+	classpath = rootProject.files()
+}
 
 bootJar {
 	baseName = 'gs-rest-service'
